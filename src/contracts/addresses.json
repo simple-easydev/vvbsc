@@ -1,0 +1,14 @@
+{
+    "main":{
+        "vote":"0xEcbdFCe5c4AaDf5e869a67e8E6ec488885eCEB6d",
+        "team_wallet":"0xcf0c275d601375d9cf46c0cb2586199ec3c68c0d"
+    },
+    "testnet":{
+        "vote":"0x7416C3f639b2cEcA950f097FA897Ec0c9BB24F51",
+        "team_wallet":"0xcf0c275d601375d9cf46c0cb2586199ec3c68c0d"
+    },
+    "polygon":{
+        "vote":"0x490a12e35aF1335b6D93d36BA49651E5116C5e54",
+        "team_wallet":"0xcf0c275d601375d9cf46c0cb2586199ec3c68c0d"
+    }
+}

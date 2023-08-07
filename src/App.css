@@ -1,0 +1,40 @@
+* {
+  font-family: "Roboto", sans-serif !important;
+  /* color: #293845; */
+  /* border-color: "#dfe6ed" !important; */
+}
+
+button:focus,
+select:focus,
+input:focus,
+textarea:focus {
+  box-shadow: none !important;
+}
+
+.bg-primary {
+  background-color: #730fc3 !important;
+}
+
+.text-primary {
+  color: #730fc3 !important;
+}
+
+.border-primary {
+  border-color: #730fc3 !important;
+}
+
+.btn-primary {
+  background-color: #730fc3 !important;
+  border-color: #730fc3 !important;
+}
+
+.btn-primary:hover {
+  background-color: #730fc3 !important;
+  border-color: #730fc3 !important;
+}
+
+@media (max-width: 410px) {
+  .react-datepicker-popper {
+    display: none;
+  }
+}
