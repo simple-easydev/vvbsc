@@ -486,7 +486,7 @@ export const getVoteResult = async (
 		address:poll,
 		abi:pollAbi,
 		functionName:"getVoteResult",
-		account:"0x5219f96327feCF0E590B71490F6b774706959666"
+		account:address
 	})
 
 	return result
