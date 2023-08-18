@@ -114,13 +114,15 @@ const ManagerPollDetails: React.FC = () => {
 
 			const getPoints = (qIndex:number, aIndex:number, qType:number) => {
 				return result.reduce((acc, curObj, index)=>{
-					const ansR = curObj.answers[qIndex]
-					const pos = ansR.indexOf(BigInt(aIndex))
-					if(pos>-1){
-						if(qType == 2){
-							return acc + (5 - pos)
+					if(curObj.answers.length > 0){
+						const ansR = curObj.answers[qIndex]
+						const pos = ansR.indexOf(BigInt(aIndex))
+						if(pos>-1){
+							if(qType == 2){
+								return acc + (5 - pos)
+							}
+							return acc + 1
 						}
-						return acc + 1
 					}
 					return acc
 				},0)

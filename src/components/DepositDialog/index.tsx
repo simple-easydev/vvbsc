@@ -30,7 +30,6 @@ const DepositDialog = () => {
 			setHash(res.hash)
 			// await waitForTransaction({ hash: res.hash })
 		}
-
 	})
 
 	if(isSuccess) {
