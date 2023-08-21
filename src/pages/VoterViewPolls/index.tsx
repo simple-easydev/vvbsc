@@ -10,7 +10,7 @@ import smartTruncate from "smart-truncate"
 import { requestGetActivePollsForVoter, requestGetComingPollsForVoter, requestGetFinishedPollsOfVoter } from "../../axios/poll"
 import { IExPoll } from "../SubmitPoll"
 import SimpleTable from "../../components/SimpleTable"
-import { signVoteApi } from "@/web3"
+import { isVoted, signVoteApi } from "@/web3"
 
 const useStyles = makeStyles((theme:Theme) => ({
 	container: {
@@ -30,11 +30,26 @@ const VoterHome: React.FC = () => {
 	const { type } = useParams<string>()
 	const [polls, setPolls] = useState<IExPoll[]>()
 
-	const fetchPolls = useCallback(() => {
+	const fetchPolls = useCallback(async () => {
 		if (address) {
 			setPolls(undefined)
 			if (type === "active") {
-				requestGetActivePollsForVoter().then(({ data }) => setPolls(data))
+				const { data } = await requestGetActivePollsForVoter()
+				for(let i = 0; i < data.length; i++){
+					const poll = data[i]
+					poll.isVoted = await isVoted(poll.address)
+				}
+				setPolls(data)
+
+				// requestGetActivePollsForVoter().then(({ data }) => async {
+				// 	data.forEach((element:IExPoll) => {
+				// 		// element.
+				// 		element.isVoted = await isVoted(element.address)
+						
+						
+				// 	})
+				// 	setPolls(data)
+				// })
 			} else if (type === "coming") {
 				requestGetComingPollsForVoter().then(({ data }) => setPolls(data))
 			} else if (type === "history") {
@@ -97,6 +112,10 @@ const VoterHome: React.FC = () => {
 						id: "closeTime",
 						label: "Poll Close",
 						format: timeFormat,
+					},
+					{
+						id: "isVoted",
+						label: "Voted",
 					},
 				]}
 				primaryKey="address"

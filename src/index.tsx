@@ -18,7 +18,7 @@ import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 
 
-const chains:any[] = [bsc]
+const chains:any[] = [bsc, polygon]
 
 const projectId = process.env.REACT_APP_PROJECT_ID || ""
 

@@ -436,6 +436,28 @@ export const getPollDetails = async (poll: Address) => {
 
 }
 
+export const isVoted = async (poll: Address) => {
+
+	const { address } = getAccount()
+	if (!address) throw new Error("Please connect Wallet")
+	try {
+		const data =  await readContract({
+			address:poll,
+			abi:pollAbi,
+			args:[address],
+			functionName:"isVoted"
+		})
+	
+		return data
+	}catch(error){
+		console.log(error)
+	}
+
+	return null
+
+
+}
+
 export const getQuestions = async (poll: Address, ) => {
 	const { address } = getAccount()
 	if (!address) throw new Error("Please connect Wallet")

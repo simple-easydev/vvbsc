@@ -33,6 +33,7 @@ export interface IPoll {
 	closeTime: Moment;
 	gasAmount?: number;
 	questions?: IQuestion[];
+	isVoted?:boolean;
 }
 
 export interface IExPoll extends IPoll {
