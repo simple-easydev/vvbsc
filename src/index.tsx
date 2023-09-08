@@ -21,7 +21,6 @@ import reportWebVitals from "./reportWebVitals"
 const chains:any[] = [bsc]
 
 const projectId = process.env.REACT_APP_PROJECT_ID || ""
-console.log("projectId ===>", projectId)
 
 const alertOpts = {
 	position: positions.TOP_RIGHT,

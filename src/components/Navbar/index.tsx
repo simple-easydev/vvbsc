@@ -1,10 +1,14 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import { Container, AppBar, Box, Divider } from "@mui/material"
+import { Container, AppBar, Box, Divider, Button } from "@mui/material"
+import { useWalletClient } from "wagmi"
+import { useWeb3Modal } from "@web3modal/react"
 
 
 const MainNavbar = () => {
 	const navigate = useNavigate()
+	// const { } = useWalletClient()
+	const  {open } = useWeb3Modal()
 
 	return (
 		<AppBar
@@ -16,18 +20,17 @@ const MainNavbar = () => {
 			}}
 		>
 			<Container maxWidth = {false}>
-				<Box
-					sx = {{ cursor:"pointer"}}
-					component={"img"}
-					style={{ height: 60, width:"auto" }}
-					onClick={() => navigate("/")}
-					src="/media/logo/velocity-vote-logo.png"
-					alt="logo"
-				/>
-				<Box className="d-flex align-items-center justify-content-end py-2">
-					{/* <Button className="px-3 text-uppercase" onClick={disconnect}>
-              Close
-            </Button> */}
+				<Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+					<Box
+						sx = {{ cursor:"pointer"}}
+						component={"img"}
+						style={{ height: 60, width:"auto" }}
+						onClick={() => navigate("/")}
+						src="/media/logo/velocity-vote-logo.png"
+						alt="logo"
+					/>
+				
+					<Button variant="contained" onClick={open}>Disconnect</Button>
 				</Box>
 			</Container>
 			<Divider />
