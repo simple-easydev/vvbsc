@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Theme, Box, Typography } from "@mui/material"
+import { CheckCircle } from "@mui/icons-material"
 import { makeStyles } from "@mui/styles"
 import { useAccount } from "wagmi"
 import SVG from "react-inlinesvg"
@@ -71,8 +72,15 @@ const VoterHome: React.FC = () => {
 
 	const timeFormat = useCallback<(_: Date) => string>(
 		(date) => moment(date).format("L LT"),
-	[]
-	)
+	[])
+
+	const checkMarkFormat = useCallback((val:boolean) => {
+		if(val){
+			return <CheckCircle color="success" />
+		}
+		return ""
+	},
+	[])
 
 	const descFormat = useCallback<(_: string) => string>(
 		(desc) => smartTruncate(desc, 20),
@@ -87,6 +95,8 @@ const VoterHome: React.FC = () => {
 	// 	console.log(amount)
 	// }
 	// func()
+
+	console.log("polls ===>", polls)
 
 	return (
 		<Box sx = {{ p:2 }}>
@@ -116,6 +126,7 @@ const VoterHome: React.FC = () => {
 					{
 						id: "isVoted",
 						label: "Voted",
+						format: checkMarkFormat,
 					},
 				]}
 				primaryKey="address"

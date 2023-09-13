@@ -453,7 +453,7 @@ export const isVoted = async (poll: Address) => {
 		console.log(error)
 	}
 
-	return null
+	return false
 
 
 }
