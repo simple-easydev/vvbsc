@@ -24,16 +24,21 @@ const generateHeaders = async (isSecure:boolean) => {
 		headers.account = address
 		const lastTimestamp = localStorage.getItem("api-timestamp")
 		const signature = localStorage.getItem("api-signature")
+		const isRequested = localStorage.getItem("api-signature-requested") || false
 
-		if (lastTimestamp === null || +lastTimestamp + LIMIT_OFFSET < now || signature === null ) {
-			const msg = `API request by ${address} at ${now}`
-			const newSignature = await signMessage({ message:msg })
-			const newChainId = await client.getChainId()
-			headers.signature = newSignature
-			headers.timestamp = now
-			localStorage.setItem("api-signature", newSignature)
-			localStorage.setItem("chainId", `${newChainId}`)
-			localStorage.setItem("api-timestamp", "" + now)
+		if (lastTimestamp === null || +lastTimestamp + LIMIT_OFFSET < now || signature === null) {
+			if(!isRequested){
+				const msg = `API request by ${address} at ${now}`
+				localStorage.setItem("api-signature-requested", "true")
+				const newSignature = await signMessage({ message:msg })
+				const newChainId = await client.getChainId()
+				headers.signature = newSignature
+				headers.timestamp = now
+				localStorage.setItem("api-signature", newSignature)
+				localStorage.setItem("chainId", `${newChainId}`)
+				localStorage.setItem("api-timestamp", "" + now)
+				localStorage.removeItem("api-signature-requested")
+			}
 		} else {
 			headers.signature = signature
 			headers.timestamp = +lastTimestamp

@@ -13,7 +13,6 @@ import { requestUpdatePoll } from "@/axios/poll"
 import { CHAIN_ID } from "@/axios/config"
 
 const getContractAddress = ():Address => {
-	console.log("CHAIN_ID ===>", CHAIN_ID)
 	let voteAddrr = null
 	if(CHAIN_ID == "97"){
 		voteAddrr = addresses.testnet.vote
