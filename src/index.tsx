@@ -18,7 +18,7 @@ import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 
 
-const chains:any[] = [bscTestnet]
+const chains:any[] = [bsc]
 
 const projectId = process.env.REACT_APP_PROJECT_ID || ""
 
