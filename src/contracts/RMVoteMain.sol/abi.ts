@@ -296,6 +296,25 @@ export default [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "pollOwner",
+				"type": "address"
+			}
+		],
+		"name": "getQuestionFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getUnclosedPolls",
 		"outputs": [
@@ -303,6 +322,25 @@ export default [
 				"internalType": "address[]",
 				"name": "",
 				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "pollOwner",
+				"type": "address"
+			}
+		],
+		"name": "getWhiteListFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -535,6 +573,29 @@ export default [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "systemFeePolicy",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "feePollOnOff",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "feeQuestionOnOff",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "feeWhitelistOnOff",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -543,6 +604,57 @@ export default [
 			}
 		],
 		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "_feePollOnOff",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_feeQuestionOnOff",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_feeWhitelistOnOff",
+				"type": "bool"
+			}
+		],
+		"name": "updateFeePolicy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bool",
+				"name": "_feePollOnOff",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_feeQuestionOnOff",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_feeWhitelistOnOff",
+				"type": "bool"
+			}
+		],
+		"name": "updateSystemFeePolicy",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -576,6 +688,50 @@ export default [
 		"name": "upgradeToAndCall",
 		"outputs": [],
 		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "userFeePolicyMap",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "disableFeePollOnState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "disableFeeQuestionOnState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "disableFeeWhiteListOnState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "enableFeePollOffState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "enableFeeQuestionOffState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "enableFeeWhiteListOffState",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
