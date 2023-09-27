@@ -20,6 +20,8 @@ import {
 } from "react-beautiful-dnd"
 import { Address, useAccount } from "wagmi"
 import { arrayMoveImmutable } from "array-move"
+// const uuidv5 = require('uuid/v5');
+import { v5 as uuidv5 } from "uuid"
 
 import { requestVoteQuestion } from "../../axios/poll"
 import { getPollDetails, getQuestions, signVoteApi } from "../../web3"
@@ -100,7 +102,6 @@ const VoteQuestions: React.FC = () => {
 						setTitle(data.title)
 						setDescription(data.description)
 						getQuestions(poll).then((questions) => {
-							console.log("getQuestions ===>", questions)
 							setQuestions(
 								questions.map(({ text, kind, choices }: any) => ({
 									text,
@@ -130,11 +131,11 @@ const VoteQuestions: React.FC = () => {
 		[questions]
 	)
 
-	console.log("votes ==>", votes)
 
 	const handleDragEnd = useCallback(
 		(index: number) =>
 			({ source, destination }: DropResult) => {
+				console.log("--handleDragEnd---")
 				if (!destination) {
 					return
 				}
@@ -194,6 +195,8 @@ const VoteQuestions: React.FC = () => {
 		}, 
 		[poll, isAllVoted, votes, address]
 	)
+	
+	console.log("questions ==>", questions)
 
 	return (
 		<Box sx = {{ p:2 }}>

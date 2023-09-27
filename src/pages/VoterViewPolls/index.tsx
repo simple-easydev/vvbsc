@@ -87,15 +87,6 @@ const VoterHome: React.FC = () => {
 	[]
 	)
 
-	// test func
-	// const func =async () => {
-	// 	const { signature, nonce, amount } = await signVoteApi("0x6270A0ba9e3192e68b6cc6703844a0b1665d92fd")
-	// 	console.log(signature)
-	// 	console.log(nonce)
-	// 	console.log(amount)
-	// }
-	// func()
-
 	console.log("polls ===>", polls)
 
 	return (

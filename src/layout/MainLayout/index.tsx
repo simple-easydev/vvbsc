@@ -4,6 +4,7 @@ import MainNavbar from "@/components/Navbar"
 import Sidebar from "@/components/ProSidebar"
 import { watchAccount, watchNetwork } from "wagmi/actions"
 import { useAccount, useNetwork, useWalletClient } from "wagmi"
+import { Box } from "@mui/material"
 
 
 export default function MainLayout() {
@@ -31,13 +32,13 @@ export default function MainLayout() {
 	})
 
 	return (
-		<>
+		<Box display={"flex"} flexDirection={"column"} height={"100vh"}>
 			<MainNavbar />
 			<Sidebar userType={(path as string).split("/")[1]}>
 				<Outlet />
 			</Sidebar>
 			
-		</>
+		</Box>
 		
 	)
 }

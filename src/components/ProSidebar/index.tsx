@@ -115,7 +115,7 @@ const Sidebar: React.FC<Props> = ({ userType, children }) => {
 	const matches = useMediaQuery(theme.breakpoints.up("sm"))
 
 	return (
-		<Box sx = {{ display:"flex", height:"100vh" }}>
+		<Box sx = {{ display:"flex", flexGrow:1 }}>
 			<Box sx = {{ borderRight:`solid 1px ${grey[100]}`}}>
 				<ProSidebar
 					className={"px-0 px-md-4 h-100"}
