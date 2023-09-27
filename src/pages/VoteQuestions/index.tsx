@@ -55,23 +55,26 @@ const useStyles = makeStyles((theme:Theme) => ({
 		},
 	},
 	box: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
+		// display: "flex",
+		// alignItems: "center",
+		// justifyContent: "center",
+
 		marginLeft: 24,
-		marginTop: 11,
-		marginBottom: 11,
-		width: 20,
-		height: 20,
+		// marginTop: 11,
+		// marginBottom: 11,
+		padding:"3px 8px 3px 8px",
+
+		// width: 20,
+		// height: 20,
 		border: `1px solid ${Color.Primary}`,
 		borderRadius: 3,
 		fontSize: 14,
 	},
 	draggable: {
-		fontSize: 14,
-		marginLeft: 10,
-		paddingTop: 5,
-		paddingBottom: 5,
+		// fontSize: 14,
+		// marginLeft: 10,
+		// paddingTop: 5,
+		// paddingBottom: 5,
 	},
 }))
 
@@ -220,49 +223,51 @@ const VoteQuestions: React.FC = () => {
 											: "Please Select 1 Answer, Below."}
 									</Typography>
 									{question.type === QuestionType.RankChoice ? (
-										<Box display={"flex"} alignItems={"center"}>
-											<div>
-												{question.choices.map((value, idx) => (
-													<span key={idx} className={classes.box}>
-														{idx + 1}
-													</span>
-												))}
-											</div>
-											<DragDropContext onDragEnd={handleDragEnd(index)}>
-												<Droppable droppableId={`question-${index}`}>
-													{(provided: DroppableProvided) => (
-														<div
-															ref={provided.innerRef}
-															{...provided.droppableProps}
-														>
-															{reorderedVotes(
-																question.choices,
-																votes[index]
-															).map((choice, idx) => (
-																<Draggable
-																	key={idx}
-																	draggableId={`choice-${idx}`}
-																	index={idx}
-																>
-																	{(provided: DraggableProvided) => (
-																		<div
-																			className={classes.draggable}
-																			ref={provided.innerRef}
-																			{...provided.draggableProps}
-																			{...provided.dragHandleProps}
-																		>
-																			{choice}
-																		</div>
-																	)}
-																</Draggable>
-															))}
+										<DragDropContext onDragEnd={handleDragEnd(index)}>
+											<Droppable droppableId={`question-${index}`}>
+												{(provided: DroppableProvided) => (
+													<div
+														ref={provided.innerRef}
+														{...provided.droppableProps}
+													>
+														{reorderedVotes(
+															question.choices,
+															votes[index]
+														).map((choice, idx) => (
+															<Draggable
+																key={idx}
+																draggableId={`choice-${idx}`}
+																index={idx}
+															>
+																{(provided: DraggableProvided) => (
+																	<div
+																		className={classes.draggable}
+																		ref={provided.innerRef}
+																		{...provided.draggableProps}
+																		{...provided.dragHandleProps}
+																	>
+																		<Box display={"flex"} py={1}>
+																			<Box>
+																				<span className={classes.box}>
+																					{idx + 1}
+																				</span> 
+																			</Box>
+																			<Box sx={{ ml:1 }}>
+																				<Typography>
+																					{choice}
+																				</Typography>
+																			</Box>
+																		</Box>
+																	</div>
+																)}
+															</Draggable>
+														))}
 
-															{provided.placeholder}
-														</div>
-													)}
-												</Droppable>
-											</DragDropContext>
-										</Box>
+														{provided.placeholder}
+													</div>
+												)}
+											</Droppable>
+										</DragDropContext>
 									) : (
 										<RadioGroup
 											sx = {{ ml:2, mb:1 }}
