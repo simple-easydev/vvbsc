@@ -70,6 +70,11 @@ const ownerMenuItems = [
 		title: "Withdraw",
 		route: "/owner/withdraw",
 	},
+	{
+		icon: <SVG src="/media/svg/menu-withdraw.svg" fill={Color.Primary} />,
+		title: "Fee Management",
+		route: "/owner/fee",
+	},
 ]
 
 const voterMenuItems = [

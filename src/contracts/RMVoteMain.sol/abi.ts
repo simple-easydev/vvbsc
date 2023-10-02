@@ -617,17 +617,32 @@ export default [
 			},
 			{
 				"internalType": "bool",
-				"name": "_feePollOnOff",
+				"name": "_disableFeePollOnState",
 				"type": "bool"
 			},
 			{
 				"internalType": "bool",
-				"name": "_feeQuestionOnOff",
+				"name": "_enableFeePollOffState",
 				"type": "bool"
 			},
 			{
 				"internalType": "bool",
-				"name": "_feeWhitelistOnOff",
+				"name": "_disableFeeQuestionOnState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_enableFeeQuestionOffState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_disableFeeWhiteListOnState",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "_enableFeeWhiteListOffState",
 				"type": "bool"
 			}
 		],

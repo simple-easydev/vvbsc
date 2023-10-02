@@ -11,6 +11,8 @@ import { parseGwei, encodePacked, keccak256, toBytes, Address, parseEther } from
 import moment from "moment"
 import { requestUpdatePoll } from "@/axios/poll"
 import { CHAIN_ID } from "@/axios/config"
+import { SystemFeeType } from "@/pages/FeePanel/SystemFee"
+import { UserFeeType } from "@/pages/FeePanel/FeeWhiteList"
 
 const getContractAddress = ():Address => {
 	let voteAddrr = null
@@ -565,4 +567,73 @@ export const sendValue =async (to:Address, value:bigint) => {
 	console.log("value ==>", value)
 	const res = await sendTransaction({ to, value })
 	console.log("res ==>", res)
+}
+
+export const getSystemFee = async () => {
+	const account = getAccount()
+	if (!account.address) throw new Error("Please connect Wallet")
+	try {
+		const fee = await readContract({
+			address:getContractAddress(),
+			abi:voteAbi,
+			functionName:"systemFeePolicy"
+		})
+		return {
+			feePollOnOff:fee[0],
+			feeQuestionOnOff:fee[1],
+			feeWhitelistOnOff:fee[2],
+		}
+	}catch(error){
+		console.log(error)
+	}
+
+	return {
+		feePollOnOff:false,
+		feeQuestionOnOff:false,
+		feeWhitelistOnOff:false,
+	}
+}
+
+export const updateSystemFee = async (data:SystemFeeType) => {
+	const account = getAccount()
+	if (!account.address) throw new Error("Please connect Wallet")
+	try {
+		const { hash } = await writeContract({
+			address:getContractAddress(),
+			abi:voteAbi,
+			args:[ data.feePollOnOff, data.feeQuestionOnOff, data.feeWhitelistOnOff],
+			functionName:"updateSystemFeePolicy"
+		})
+	
+		const receipt = await waitForTransaction({ hash })
+		
+	}catch(error){
+		console.log(error)
+	}
+}
+
+export const updateUserFee = async (data:UserFeeType) => {
+	const account = getAccount()
+	if (!account.address) throw new Error("Please connect Wallet")
+	try {
+		const { hash } = await writeContract({
+			address:getContractAddress(),
+			abi:voteAbi,
+			args:[ 
+				data.pollCreator, 
+				data.disableFeePollOnState, 
+				data.disableFeeQuestionOnState,
+				data.disableFeeWhiteListOnState,
+				data.enableFeePollOffState,
+				data.enableFeeQuestionOffState,
+				data.enableFeeWhiteListOffState,
+			],
+			functionName:"updateFeePolicy"
+		})
+	
+		const receipt = await waitForTransaction({ hash })
+		
+	}catch(error){
+		console.log(error)
+	}
 }

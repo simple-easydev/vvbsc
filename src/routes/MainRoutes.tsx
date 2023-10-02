@@ -22,6 +22,7 @@ import Withdraw from "@/pages/Withdraw"
 import VoterHome from "@/pages/VoterHome"
 import VoteQuestions from "@/pages/VoteQuestions"
 import VoterViewPolls from "@/pages/VoterViewPolls"
+import FeePanel from "@/pages/FeePanel"
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import("@/views/Dashboard")))
@@ -111,6 +112,10 @@ const MainRoutes = [
 			{
 				path:"withdraw",
 				element:<Withdraw />
+			},
+			{
+				path:"fee",
+				element:<FeePanel />
 			},
 		]
 	},
