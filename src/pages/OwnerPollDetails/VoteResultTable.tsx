@@ -1,6 +1,5 @@
-import React, { ReactNode, useCallback, useRef } from "react"
+import React, { ReactNode, useRef } from "react"
 import { IVoteAnswer } from "../SubmitQuestions"
-import SimpleTable from "@/components/SimpleTable"
 import moment from "moment"
 import { Box, Button, IconButton, List, ListItem, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, Typography, useTheme } from "@mui/material"
 import _ from "lodash"
@@ -173,8 +172,8 @@ const VoteResultTable = ({ data }:Props) => {
 			<Box display={"flex"} justifyContent={"space-between"}>
 				<Typography> Vote Result </Typography>
 				<DownloadTableExcel
-					filename="users table"
-					sheet="users"
+					filename="vote-result"
+					sheet="voters"
 					currentTableRef={tableRef.current}
 				>
 					<Button
