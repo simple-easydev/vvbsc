@@ -224,7 +224,7 @@ const OwnerPollDetails: React.FC = () => {
 
 						<Card>
 							<CardContent>
-								<VoteResultTable data={voteResult}/>
+								<VoteResultTable data={voteResult} questions={questions}/>
 							</CardContent>
 						</Card>
 					</Box>

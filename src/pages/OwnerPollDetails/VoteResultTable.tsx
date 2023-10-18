@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef } from "react"
-import { IVoteAnswer } from "../SubmitQuestions"
+import { IQuestion, IVoteAnswer } from "../SubmitQuestions"
 import moment from "moment"
 import { Box, Button, IconButton, List, ListItem, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, Typography, useTheme } from "@mui/material"
 import _ from "lodash"
@@ -41,6 +41,7 @@ const CustomTableRow = ({row, columns, index}:CustomTableRowProps) => {
 
 interface Props {
     data:readonly IVoteAnswer[]
+	questions:IQuestion[];
 }
 
 function TablePaginationActions(props: TablePaginationActionsProps) {
@@ -99,7 +100,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 	)
 }
 
-const VoteResultTable = ({ data }:Props) => {
+const VoteResultTable = ({ data, questions }:Props) => {
 
 	const columns:ColumnType[] = [
 		{
@@ -112,7 +113,7 @@ const VoteResultTable = ({ data }:Props) => {
 		{
 			label:"Voter",
 			dataIndex:"votor",
-			width:"40%"
+			width:"25%"
 		},
 		{
 			label:"Voted At",
@@ -121,34 +122,36 @@ const VoteResultTable = ({ data }:Props) => {
 				return moment(moment.unix(Number(row["createdAt"]))).format("L LT")
 			}
 		},
-		{
-			label:"Answers",
-			dataIndex:"answers",
-			render:(row, index)=>{
-				return (
-					<div>
-						{
-							row.answers.map((answer, index)=>(
-								<>
-									<Typography key = {index}>Q {index + 1}</Typography>
-									<List sx = {{ listStyleType: "disc", ml:4 }}>
-										{answer.map((choice, idx) => (
-											<ListItem
-												disablePadding
-												sx = {{ display:"list-item"}}
-												key={idx}
-											>
-												{Number(choice)}
-											</ListItem>
-										))}
-									</List>
-								</>
-							))
-						}
-					</div>
-				)
+		...questions.map((question, qIndex)=>{
+			return {
+				label:`Q ${qIndex + 1}`,
+				dataIndex:"answers",
+				render:(row:IVoteAnswer)=>{
+					return (
+						<div>
+							{
+								row.answers.map((answer, index)=>(
+									qIndex == index && 
+									<>
+										<List sx = {{ listStyleType: "disc", ml:4 }}>
+											{answer.map((choice, idx) => (
+												<ListItem
+													disablePadding
+													sx = {{ display:"list-item"}}
+													key={idx}
+												>
+													{Number(choice)}
+												</ListItem>
+											))}
+										</List>
+									</>
+								))
+							}
+						</div>
+					)
+				}
 			}
-		},
+		})
 	]
 	const tableRef = useRef(null)
 	const [page, setPage] = React.useState(0)
