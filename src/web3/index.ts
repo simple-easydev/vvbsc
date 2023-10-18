@@ -500,10 +500,12 @@ export const voteQuestions = async (
 }
 
 export const getVoteResult = async (
-	poll: Address	
+	poll: Address,	
+	pollCreator?: Address	
 ) => {
-	const { address } = getAccount()
+	let { address } = getAccount()
 	if (!address) throw new Error("Please connect Wallet")
+	if(pollCreator) address = pollCreator
 
 	const result = await readContract({
 		address:poll,

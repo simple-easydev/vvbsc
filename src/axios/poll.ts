@@ -25,3 +25,5 @@ export const requestGetFinishedPollsOfVoter = () => secureGetReqeust(`${POLL_URL
 export const requestCreatePoll = (payload:any) => postRequest(`${POLL_URL}`,payload)
 export const requestUpdatePoll = (poll:Address, payload:any) => putRequest(`${POLL_URL}/${poll}`,payload)
 export const requestVoteQuestion = (poll:Address, payload:any) => postRequest(`${POLL_URL}/${poll}/vote`,payload)
+
+export const requestPollDetail = (poll:Address) => getRequest(`${POLL_URL}/${poll}`)
