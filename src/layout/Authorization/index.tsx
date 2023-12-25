@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useAccount, useNetwork } from "wagmi"
 import { watchAccount } from "wagmi/actions"
-import MainNavbar from "@/components/Navbar"
+import { DesktopNavbar } from "@/components/Navbar"
 
 
 
@@ -32,7 +32,7 @@ const AuthorizationLayout = () => {
 
 	return (
 		<>
-			<MainNavbar />	
+			<DesktopNavbar />	
 			<Outlet />
 		</>
 	)

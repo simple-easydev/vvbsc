@@ -55,6 +55,10 @@ root.render(
 			</WagmiConfig>
 			<Web3Modal
 				themeMode="dark"
+				themeVariables={{
+					"--w3m-background-color":"#730fc3",
+					"--w3m-accent-color":"#730fc3"
+				}}
 				projectId={projectId}
 				ethereumClient={ethereumClient}
 			/>

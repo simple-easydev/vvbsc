@@ -1,7 +1,6 @@
 import React, {
 	useCallback,
 	useEffect,
-	useState,
 } from "react"
 import { useNavigate } from "react-router-dom"
 import { Container, Select, MenuItem, Box, Typography, Grid} from "@mui/material"
@@ -9,25 +8,17 @@ import { Container, Select, MenuItem, Box, Typography, Grid} from "@mui/material
 import useAuth from "@/appRedux/auth/auth.hook"
 import { useDoing } from "../../hooks"
 import ActionButton from "../../components/ActionButton"
-
-export enum UserType {
-  Owner = "owner",
-  Manager = "manager",
-  Voter = "voter",
-}
+import { UserType } from "@/utils/types"
 
 const Authorization: React.FC = () => {
 	const navigate = useNavigate()
-	const { auth : { isManager, isOwner } } = useAuth()
+	const { auth : { isManager, isOwner, userType }, setUserType } = useAuth()
 	const [isBusy, setBusy, setFree] = useDoing()
-	const [type, setType] = useState<UserType>(UserType.Manager)
-	console.log("isManager ==>", isManager)
-
 
 	const handleNext = useCallback(() => {
-		if (type === UserType.Voter) {
+		if (userType === UserType.VOTER) {
 			navigate("/voter/home")
-		} else if (type === UserType.Owner) {
+		} else if (userType === UserType.OWNER) {
 			navigate("/owner/home")
 		} else {
 			if (isManager === undefined) {
@@ -38,8 +29,7 @@ const Authorization: React.FC = () => {
 				navigate("/manager/register")
 			}
 		}
-    
-	}, [type, isManager])
+	}, [userType, isManager])
 
 	useEffect(() => {
 		if (isManager !== undefined && isBusy) {
@@ -49,7 +39,7 @@ const Authorization: React.FC = () => {
     
 	}, [isManager, isBusy])
 
-	const handleChangeType = (event: any) => setType(event.target.value as UserType)
+	const handleChangeType = (event: any) => setUserType(event.target.value as UserType)
 	
 	return (
 		<Container sx={{ height:"calc(100vh - 72px)"}}>
@@ -67,12 +57,12 @@ const Authorization: React.FC = () => {
 						mt:4,
 						mb:4
 					}}
-					value={type}
+					value={userType}
 					onChange={handleChangeType}
 				>
-					{isOwner && <MenuItem value={UserType.Owner}>Owner</MenuItem>}
-					<MenuItem value={UserType.Manager}>Poll Creator</MenuItem>
-					<MenuItem value={UserType.Voter}>Voter</MenuItem>
+					{isOwner && <MenuItem value={UserType.OWNER}>Owner</MenuItem>}
+					<MenuItem value={UserType.MANAGER}>Poll Creator</MenuItem>
+					<MenuItem value={UserType.VOTER}>Voter</MenuItem>
 				</Select>
 				<ActionButton
 					isBusy={isBusy}
