@@ -16,7 +16,8 @@ const MainNavbar = () => {
 			elevation={0}
 			// position="top"
 			sx = {{
-				bgcolor:"#fff"
+				bgcolor:"#fff",
+				zIndex: (theme) => theme.zIndex.drawer + 1
 			}}
 		>
 			<Container maxWidth = {false}>

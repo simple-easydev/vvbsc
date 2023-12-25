@@ -21,7 +21,7 @@ export default function App() {
 
 	const alertError = useAlertError()
 	const { setManager, setOwner } = useAuth()
-	const { address, isConnected } = useAccount()
+	const { address } = useAccount()
 	
 	const fetchUserRole = useCallback(() => {
 		if (address) {

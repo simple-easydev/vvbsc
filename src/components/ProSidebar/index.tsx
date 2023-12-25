@@ -1,49 +1,57 @@
-import React from "react"
+import React, { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { ProSidebar, Menu, MenuItem, SidebarContent } from "react-pro-sidebar"
-import { makeStyles } from "@mui/styles"
-import { useMediaQuery, Box, useTheme } from "@mui/material"
+import { useMediaQuery, Box, useTheme, styled, Theme, CSSObject, IconButton, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from "@mui/material"
 import SVG from "react-inlinesvg"
 import { useWalletClient } from "wagmi"
+import MuiDrawer from "@mui/material/Drawer"
 
 import { Color } from "@/color"
 
 import "./style.scss"
 import { grey } from "@mui/material/colors"
+import HomeIcon from "@mui/icons-material/Home"
+import AppsIcon from "@mui/icons-material/Apps"
+import HistoryIcon from "@mui/icons-material/History"
+import UpcomingIcon from "@mui/icons-material/Upcoming"
+import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown"
+import WalletIcon from "@mui/icons-material/Wallet"
+import NoteAddIcon from "@mui/icons-material/NoteAdd"
+import PriceCheckIcon from "@mui/icons-material/PriceCheck"
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote"
 
 const managerMenuItems = [
 	{
-		icon: <SVG src="/media/svg/menu-home.svg" fill={Color.Primary} />,
+		icon: <HomeIcon />,
 		title: "Home",
 		route: "/manager/home",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-all.svg" fill={Color.Primary} />,
+		icon: <AppsIcon />,
 		title: "All Polls",
 		route: "/manager/view/all",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-history.svg" fill={Color.Primary} />,
+		icon: <HistoryIcon />,
 		title: "Historical Polls",
 		route: "/manager/view/history",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-future.svg" fill={Color.Primary} />,
+		icon: <UpcomingIcon />,
 		title: "Coming Polls",
 		route: "/manager/view/coming",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-active.svg" fill={Color.Primary} />,
+		icon: <ThumbsUpDownIcon />,
 		title: "Active Polls",
 		route: "/manager/view/active",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-create.svg" fill={Color.Primary} />,
+		icon: <NoteAddIcon />,
 		title: "Create New Poll",
 		route: "/manager/submit-poll",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-create.svg" fill={Color.Primary} />,
+		icon: <WalletIcon />,
 		title: "Gas Wallet",
 		route: "/manager/gas-wallet",
 	},
@@ -51,27 +59,27 @@ const managerMenuItems = [
 
 const ownerMenuItems = [
 	{
-		icon: <SVG src="/media/svg/menu-home.svg" fill={Color.Primary} />,
+		icon: <HomeIcon />,
 		title: "Home",
 		route: "/owner/home",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-all.svg" fill={Color.Primary} />,
+		icon: <AppsIcon />,
 		title: "All Polls",
 		route: "/owner/view/all",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-history.svg" fill={Color.Primary} />,
+		icon: <HistoryIcon />,
 		title: "Unclosed Polls",
 		route: "/owner/view/unclosed",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-withdraw.svg" fill={Color.Primary} />,
+		icon: <PriceCheckIcon />,
 		title: "Withdraw",
 		route: "/owner/withdraw",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-withdraw.svg" fill={Color.Primary} />,
+		icon: <RequestQuoteIcon />,
 		title: "Fee Management",
 		route: "/owner/fee",
 	},
@@ -79,68 +87,132 @@ const ownerMenuItems = [
 
 const voterMenuItems = [
 	{
-		icon: <SVG src="/media/svg/menu-home.svg" fill={Color.Primary} />,
+		icon: <HomeIcon />,
 		title: "Home",
 		route: "/voter/home",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-active.svg" fill={Color.Primary} />,
+		icon: <ThumbsUpDownIcon />,
 		title: "Active Polls",
 		route: "/voter/view/active",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-future.svg" fill={Color.Primary} />,
+		icon: <UpcomingIcon />,
 		title: "Coming Polls",
 		route: "/voter/view/coming",
 	},
 	{
-		icon: <SVG src="/media/svg/menu-history.svg" fill={Color.Primary} />,
+		icon: <HistoryIcon />,
 		title: "Historical Polls",
 		route: "/voter/view/history",
 	},
 ]
 
-const useStyles = makeStyles(() => ({
-	root: {
-		paddingTop: 72,
-		borderRight: `2px solid ${Color.Border}`,
-	},
-}))
+const drawerWidth = 240
 
 type Props = {
   userType: string;
   children: JSX.Element | JSX.Element[];
 };
 
+  
+const openedMixin = (theme: Theme): CSSObject => ({
+	width: drawerWidth,
+	transition: theme.transitions.create("width", {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.enteringScreen,
+	}),
+	overflowX: "hidden",
+})
+  
+const closedMixin = (theme: Theme): CSSObject => ({
+	transition: theme.transitions.create("width", {
+		easing: theme.transitions.easing.sharp,
+		duration: theme.transitions.duration.leavingScreen,
+	}),
+	overflowX: "hidden",
+	width: `calc(${theme.spacing(7)} + 1px)`,
+	[theme.breakpoints.up("sm")]: {
+		width: `calc(${theme.spacing(8)} + 1px)`,
+	},
+})
+  
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" })(
+	({ theme, open }) => ({
+		width: drawerWidth,
+		flexShrink: 0,
+		whiteSpace: "nowrap",
+		boxSizing: "border-box",
+		...(open && {
+			...openedMixin(theme),
+			"& .MuiDrawer-paper": openedMixin(theme),
+		}),
+		...(!open && {
+			...closedMixin(theme),
+			"& .MuiDrawer-paper": closedMixin(theme),
+		}),
+	}),
+)
+
 const Sidebar: React.FC<Props> = ({ userType, children }) => {
 	const { data: walletClient, isError, isLoading } = useWalletClient()
 	const navigate = useNavigate()
-	// const matches = useMediaQuery("(min-width: 768px)")
 	const theme = useTheme()
 	const matches = useMediaQuery(theme.breakpoints.up("sm"))
+	const [menuKey, setMenuKey] = useState(0)
+
+	const menuItems = useMemo(()=>{
+		return (userType === "owner")?ownerMenuItems:(userType === "manager")?managerMenuItems:voterMenuItems
+	}, [ userType ])
 
 	return (
-		<Box sx = {{ display:"flex", height:"100vh" }}>
+		<Box sx = {{ display:"flex" }}>
 			<Box sx = {{ borderRight:`solid 1px ${grey[100]}`}}>
-				<ProSidebar
-					className={"px-0 px-md-4 h-100"}
-					collapsed={!matches}
-				>
-					<SidebarContent>
-						<Menu iconShape="square">
-							{(userType === "owner"
-								? ownerMenuItems
-								: userType === "manager"
-									? managerMenuItems
-									: voterMenuItems
-							).map(({ icon, title, route }, index) => (
-								<MenuItem key={index} icon={icon} onClick={() => navigate(route)}>
-									<span className="text-primary">{title}</span>
-								</MenuItem>
-							))}
-						</Menu>
-					</SidebarContent>
-				</ProSidebar>
+				<Drawer variant="permanent" open={matches}>
+					<Toolbar />
+					<List sx={{ px:1 }}>
+						{menuItems.map((item, index) => (
+							<ListItem key={index} disablePadding 
+								sx={{ 
+									display: "block", 
+									mb:"2px",  
+									borderRadius:"10px", 
+									overflow:"hidden", 
+									...(menuKey == index)?{
+										background:"rgba(118, 53, 220, 0.08)", 
+										color:Color.Primary 
+									}:{
+										
+									}
+								}}>
+								<ListItemButton
+									sx={{
+										minHeight: 48,
+										justifyContent: matches ? "center" : "initial",
+										px: matches? 2.5 : 0,
+									}}
+									onClick={()=>{
+										setMenuKey(index)
+										navigate(item.route)
+									}}
+								>
+									<ListItemIcon
+										sx={{
+											width:"20px",
+											height:"20px",
+											mr: "auto",
+											justifyContent: "center",
+											color: menuKey == index?theme.palette.primary.main:theme.palette.grey[500]
+										}}
+									>
+										{ item.icon }
+									</ListItemIcon>
+									<ListItemText primary={item.title} sx={{ opacity: matches ? 1 : 0 }} />
+								</ListItemButton>
+							</ListItem>
+						))}
+					</List>
+				</Drawer>
 			</Box>
 			<Box sx = {{ flex: 1, pt:3 }}>
 				{walletClient && children }
