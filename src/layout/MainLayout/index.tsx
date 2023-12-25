@@ -1,20 +1,21 @@
 import * as React from "react"
 import { Outlet, useNavigate } from "react-router-dom"
-import MainNavbar from "@/components/Navbar"
-import Sidebar from "@/components/ProSidebar"
+import { DesktopNavbar, MobileNavbar } from "@/components/Navbar"
+import { DesktopSidebar, MobileSidebar } from "@/components/ProSidebar"
 import { watchAccount, watchNetwork } from "wagmi/actions"
-import { useAccount, useNetwork, useWalletClient } from "wagmi"
-
+import { useAccount, useNetwork } from "wagmi"
+import { Box, Hidden, Typography, useMediaQuery, useTheme } from "@mui/material"
+import useLayout from "@/appRedux/layout/layout.hook"
 
 export default function MainLayout() {
-
-	// const { path } = useParams()
-	const path = window.location.pathname
-
 	const navigate = useNavigate()
-	const { address, isConnected } = useAccount()
+	const { address } = useAccount()
 	const { chain } = useNetwork()
-	const { data: walletClient, isError, isLoading } = useWalletClient()
+	const theme = useTheme()
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+	const { layout: { sidebarOpen } }  = useLayout()
+	
+	console.log("isMobile ===>", isMobile)
 
 	watchAccount((account) => {
 		if(address != account.address){
@@ -32,10 +33,23 @@ export default function MainLayout() {
 
 	return (
 		<>
-			<MainNavbar />
-			<Sidebar userType={(path as string).split("/")[1]}>
+			<Hidden smDown >
+				<DesktopNavbar />
+				<DesktopSidebar />
+				<Box sx = {{ pl: sidebarOpen?"240px":"80px" }}>
+					<Outlet />
+					<Box sx = {{ p: 2, color:theme.palette.primary.main }}>
+						<Typography textAlign={"center"}>
+							Rematic Finance ©2024 Created by Rematic Finance Team
+						</Typography>
+					</Box>
+				</Box>
+			</Hidden>
+			<Hidden smUp >
+				<MobileNavbar />
+				<MobileSidebar />
 				<Outlet />
-			</Sidebar>
+			</Hidden>
 			
 		</>
 		
