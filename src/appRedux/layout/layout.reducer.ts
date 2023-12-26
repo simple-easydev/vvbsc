@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState: any  = {
-	sidebarOpen:false
+	sidebarOpen:true
 }
 
 const reducers:any = {
