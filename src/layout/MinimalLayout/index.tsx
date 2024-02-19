@@ -14,6 +14,7 @@ const MinimalLayout = () => {
 
 
 	const sign = async () => {
+
 		const result = await signForApi()
 		if(result){
 			navigate("/")

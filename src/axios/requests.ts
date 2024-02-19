@@ -2,7 +2,7 @@ import axios from "axios"
 import { getAccount, getWalletClient, signMessage } from "wagmi/actions"
 import { recoverMessageAddress } from "viem"
 
-const LIMIT_OFFSET = 60000 * 60 // 60 minutes
+const LIMIT_OFFSET = 3600 * 60 // 60 minutes
 
 
 const generateHeaders = async (isSecure:boolean) => {
@@ -12,9 +12,6 @@ const generateHeaders = async (isSecure:boolean) => {
 	if(isSecure){
 		const { address } = getAccount()
 		const client = await getWalletClient()
-		console.log("address ==>", address)
-		console.log("client ==>", client)
-
 		if (!address || !client) {
 			console.error("Please connect Wallet")
 			return
@@ -24,21 +21,15 @@ const generateHeaders = async (isSecure:boolean) => {
 		headers.account = address
 		const lastTimestamp = localStorage.getItem("api-timestamp")
 		const signature = localStorage.getItem("api-signature")
-		const isRequested = localStorage.getItem("api-signature-requested") || false
-
 		if (lastTimestamp === null || +lastTimestamp + LIMIT_OFFSET < now || signature === null) {
-			if(!isRequested){
-				const msg = `API request by ${address} at ${now}`
-				localStorage.setItem("api-signature-requested", "true")
-				const newSignature = await signMessage({ message:msg })
-				const newChainId = await client.getChainId()
-				headers.signature = newSignature
-				headers.timestamp = now
-				localStorage.setItem("api-signature", newSignature)
-				localStorage.setItem("chainId", `${newChainId}`)
-				localStorage.setItem("api-timestamp", "" + now)
-				localStorage.removeItem("api-signature-requested")
-			}
+			const msg = `API request by ${address} at ${now}`
+			const newSignature = await signMessage({ message:msg })
+			const newChainId = await client.getChainId()
+			headers.signature = newSignature
+			headers.timestamp = now
+			localStorage.setItem("api-signature", newSignature)
+			localStorage.setItem("chainId", `${newChainId}`)
+			localStorage.setItem("api-timestamp", "" + now)
 		} else {
 			headers.signature = signature
 			headers.timestamp = +lastTimestamp
