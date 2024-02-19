@@ -11,3 +11,5 @@ export const getGasWalletLists = () => secureGetReqeust(`${API_URL}/account/${CH
 export const withdrawBnbFromGasWallet = (wallet:Address) => postRequest(`${API_URL}/account/${CHAIN_ID}/withdraw`, { wallet } )
 
 export const getTokenHolderList = (token:Address) => getRequest(`${API_URL}/account/${CHAIN_ID}/token/${token}/holders`)
+
+export const checkChainalysis = (address:any) => getRequest(`${API_URL}/account/chainalysis/check/${address}`)
